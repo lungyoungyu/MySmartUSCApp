@@ -52,9 +52,10 @@ public class Inbox extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
-        String message = intent.getStringExtra(LoginActivity.EXTRA_MESSAGE);
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.list_item, message.split("\n"));
+        Email[] emails = (Email[]) intent.getSerializableExtra("emails");
+
+        ArrayAdapter adapter = new ArrayAdapter<Email>(this, R.layout.list_item, emails);
 
         // Capture the layout's TextView and set the string as its text
         ListView listOfEmails = (ListView) findViewById(R.id.listOfEmails);
