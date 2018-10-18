@@ -53,8 +53,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
     public static final String EXTRA_MESSAGE = "com.example.ahmedaldulaimy.mysmartusc.MESSAGE";
-    String CLIENT_ID = "897461513804-labvf1qmpspkn40ud3c33cphkrr2rajf.apps.googleusercontent.com";
-
+    String CLIENT_ID = "897461513804-97ga187ao5sq53ijihn3gu303nfqjffc.apps.googleusercontent.com";
+    String CLIENT_SECRET = "CUToHR40BPtoNxIBKgc4b_ZW";
+            
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -76,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //        signInClient.silentSignIn();
 
         mGoogleSignInClient =  GoogleSignIn.getClient(this, gso);
-//        mGoogleSignInClient.signOut();
+        mGoogleSignInClient.signOut();
 
         SignInButton signInButton = findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(this);
@@ -97,8 +98,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             new NetHttpTransport(),
                             JacksonFactory.getDefaultInstance(),
                             "https://www.googleapis.com/oauth2/v4/token",
-                            "897461513804-labvf1qmpspkn40ud3c33cphkrr2rajf.apps.googleusercontent.com",
-                            "sn9CcYqGZvtZbzj1PJhjxhgA",
+                            CLIENT_ID,
+                            CLIENT_SECRET,
                             account.getServerAuthCode(),
                             "")
                             .execute();
