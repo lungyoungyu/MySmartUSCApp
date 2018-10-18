@@ -14,32 +14,18 @@ public class AddFavoriteKeyWord extends AppCompatActivity {
     public String[] urgentKeywords;
     public String[] emailAddresses;
 
-    public void makeUrgent(boolean c) {
-    }
-
-    ;
-
     public void makeFavorite(boolean c) {
     }
 
     ;
 
-    public void addEmail() {
-    }
-
-    ;
-
-    public void removeEmail() {
-    }
-
-    ;
-
     public void addKeyword(String keyword) {
+        favoriteKeywords = new String[favoriteKeywords.length + 1];
+        favoriteKeywords[favoriteKeywords.length] = keyword;
     }
-
-    ;
 
     public void removeKeyword() {
+
     }
 
     ;

@@ -20,11 +20,13 @@ public class AddEmail extends AppCompatActivity {
     public String[] emailAddresses;
 
     public void makeUrgent(boolean c) {
+
     }
 
     ;
 
     public void makeFavorite(boolean c) {
+
     }
 
     ;

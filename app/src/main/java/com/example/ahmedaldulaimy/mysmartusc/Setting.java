@@ -43,7 +43,7 @@ public class Setting extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        // add a onclick Lisitenner to the + sign icon
+        // add an onclick Listener to the + sign icon
         email_button = (Button) findViewById(R.id.email_button);
         myDB = new DatabaseHelper(this);
         email_button.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +136,7 @@ public class Setting extends AppCompatActivity {
 //
 //        GoogleSignInClient user = GoogleSignIn.getClient(this, gso);
 //        user.signOut();
+
 
     };
 

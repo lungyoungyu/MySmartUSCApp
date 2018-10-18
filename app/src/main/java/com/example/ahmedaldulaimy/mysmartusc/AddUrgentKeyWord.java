@@ -19,21 +19,6 @@ public class AddUrgentKeyWord extends AppCompatActivity {
 
     ;
 
-    public void makeFavorite(boolean c) {
-    }
-
-    ;
-
-    public void addEmail() {
-    }
-
-    ;
-
-    public void removeEmail() {
-    }
-
-    ;
-
     public void addKeyword(String keyword) {
     }
 
@@ -45,17 +30,17 @@ public class AddUrgentKeyWord extends AppCompatActivity {
     ;
 
     // Array of strings...
-    String[] listUrgnetKeyWords = {"11","22","33"};
+    String[] listUrgentKeyWords = {"11","22","33"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_urgent_keyword);
 
         Bundle extras = getIntent().getExtras();
-        listUrgnetKeyWords = extras.getStringArray("myUrgentWord");
+        listUrgentKeyWords = extras.getStringArray("myUrgentWord");
 
         ArrayAdapter adapter = new ArrayAdapter<String>(this,
-                R.layout.list_item, listUrgnetKeyWords);
+                R.layout.list_item, listUrgentKeyWords);
 
         ListView listView = (ListView)findViewById(R.id.listOfUrgentKeywords);
         listView.setAdapter(adapter);
