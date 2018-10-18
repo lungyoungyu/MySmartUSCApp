@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
     public static final String EXTRA_MESSAGE = "com.example.ahmedaldulaimy.mysmartusc.MESSAGE";
+    String CLIENT_ID = "897461513804-labvf1qmpspkn40ud3c33cphkrr2rajf.apps.googleusercontent.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +63,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
-        String CLIENT_ID = "897461513804-labvf1qmpspkn40ud3c33cphkrr2rajf.apps.googleusercontent.com";
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(CLIENT_ID)
