@@ -4,4 +4,12 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+
+    <string name="email_address">Enter an Important Email(s)</string>
+    <string name="urgent_key_word">Enter Urgent Keyword(s)</string>
+    <string name="favorite_key_word">Enter Favorite Keyword(s)</string>
+    <string name="update_email">Add Email</string>
+    <string name="update_urgent_keyword">Add Urgent Keyword</string>
+    <string name="update_favorite_keyword">Add Favorite Keyword</string>
 </resources>

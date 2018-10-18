@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Inbox">
+    tools:context=".AddFavoriteKeyWord">
 
     <ListView
-        android:id="@+id/listOfEmails"
+        android:id="@+id/listOfFavoriteKeywords"
         android:layout_width="368dp"
         android:layout_height="495dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,13 +17,5 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/plus_sign_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/plus_sign"
-        app:srcCompat="@android:drawable/ic_input_add"
-        android:tint="@android:color/white"
-        />
+
 </android.support.constraint.ConstraintLayout>

@@ -21,6 +21,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".Inbox"></activity>
+        <activity android:name=".Setting"></activity>
+        <activity android:name=".AddEmail"></activity>
+        <activity android:name=".AddFavoriteKeyWord"></activity>
+        <activity android:name=".AddUrgentKeyWord"></activity>
+        <activity android:name=".MyCustomAdapter"></activity>
     </application>
 
 </manifest>
