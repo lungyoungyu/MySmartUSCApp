@@ -35,8 +35,14 @@ import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Label;
 import com.google.api.services.gmail.model.ListLabelsResponse;
+import com.google.api.services.gmail.model.ListMessagesResponse;
 import com.google.api.services.gmail.model.ListThreadsResponse;
+import com.google.api.services.gmail.model.Message;
+import com.google.api.services.gmail.model.MessagePart;
+import com.google.api.services.gmail.model.MessagePartHeader;
 import com.google.api.services.gmail.model.Thread;
+
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,9 +59,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public GoogleSignInClient mGoogleSignInClient;
     private static final int RC_SIGN_IN = 9001;
     public static final String EXTRA_MESSAGE = "com.example.ahmedaldulaimy.mysmartusc.MESSAGE";
-    String CLIENT_ID = "897461513804-97ga187ao5sq53ijihn3gu303nfqjffc.apps.googleusercontent.com";
-    String CLIENT_SECRET = "CUToHR40BPtoNxIBKgc4b_ZW";
-            
+    String CLIENT_ID = "897461513804-labvf1qmpspkn40ud3c33cphkrr2rajf.apps.googleusercontent.com";
+    String CLIENT_SECRET = "sn9CcYqGZvtZbzj1PJhjxhgA";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -73,8 +79,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .build();
 
 
-        //        GoogleSignInClient signInClient = GoogleSignIn.getClient(this, gso);
-//        signInClient.silentSignIn();
+        // GoogleSignInClient signInClient = GoogleSignIn.getClient(this, gso);
+        // signInClient.silentSignIn();
 
         mGoogleSignInClient =  GoogleSignIn.getClient(this, gso);
         mGoogleSignInClient.signOut();
@@ -119,27 +125,63 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             String user = "me";
 
-            ListThreadsResponse listResponse = service.users().threads().list(user).execute();
-            List<Thread> threads = listResponse.getThreads();
-            String snippets = "";
+            ListMessagesResponse listResponse = service.users().messages().list(user).execute();
+            List<Message> threads = listResponse.getMessages();
+
+//            System.out.println(threads.get(0).getId());
+
+            Email[] emails = new Email[10];
 
             if (threads.isEmpty()) {
                 System.out.println("No labels found.");
             } else {
+
                 System.out.println("Labels:");
-                for (Thread label : threads) {
-                    System.out.printf("- %s\n", label.getSnippet());
-                    snippets = snippets + label.getSnippet() + " \n";
+
+                int counter = 0;
+                for (Message label : threads) {
+
+                    Message message = service.users().messages().get(user, label.getId()).execute();
+                    MessagePart payload = message.getPayload();
+
+                    String from = "";
+                    String subject = "";
+
+                    for (MessagePartHeader header : payload.getHeaders()) {
+
+                        String name = header.getName();
+                        String value = header.getValue();
+
+                        if (name.equals("From")){
+                            from = value;
+                        }
+
+                        if (name.equals("Subject")){
+                            subject = value;
+                        }
+
+//                        System.out.printf("- %s\n", value);
+                    }
+
+                    System.out.printf("- %s\n", message.getSnippet());
+//                    snippets = snippets + from + " \n " + subject + "\n " + message.getSnippet() + " \n";
+
+                    emails[counter] = new Email(message.getSnippet(), subject, from);
+
+                    counter += 1;
+
+                    if (counter > 9) {
+                        break;
+                    }
+
                 }
             }
 
 
             Intent intent = new Intent(this, Inbox.class);
-            intent.putExtra(EXTRA_MESSAGE, snippets);
+            intent.putExtra("emails", emails);
             startActivity(intent);
 
-            // Signed in successfully, show authenticated UI.
-//            updateUI(account);
 
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
