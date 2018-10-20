@@ -21,35 +21,23 @@ public class AddEmail extends AppCompatActivity {
 
     public void makeUrgent(boolean c) {
 
-    }
-
-    ;
+    };
 
     public void makeFavorite(boolean c) {
 
-    }
-
-    ;
+    };
 
     public void addEmail() {
-    }
-
-    ;
+    };
 
     public void removeEmail() {
-    }
-
-    ;
+    };
 
     public void addKeyword(String keyword) {
-    }
-
-    ;
+    };
 
     public void removeKeyword() {
-    }
-
-    ;
+    };
 
     // Array of strings...
     String[] listEmailAddress = {"11","22","33", "kababjya@usc.edu", "Test@usc.edu", "hello"};
@@ -81,7 +69,7 @@ public class AddEmail extends AppCompatActivity {
 
         //populate an ArrayList<String> from the database and then view it
         ArrayList<String> theList = new ArrayList<>();
-        Cursor data = myDB.getListContents();
+        Cursor data = myDB.getImportantEmails();
         MyCustomAdapter adapter = new MyCustomAdapter();
         System.out.println("this got called 11111111111111111");
         if(data.getCount() == 0){

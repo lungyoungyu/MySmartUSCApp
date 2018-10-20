@@ -15,19 +15,13 @@ public class AddUrgentKeyWord extends AppCompatActivity {
     public String[] emailAddresses;
 
     public void makeUrgent(boolean c) {
-    }
-
-    ;
+    };
 
     public void addKeyword(String keyword) {
-    }
-
-    ;
+    };
 
     public void removeKeyword() {
-    }
-
-    ;
+    };
 
     // Array of strings...
     String[] listUrgentKeyWords = {"11","22","33"};

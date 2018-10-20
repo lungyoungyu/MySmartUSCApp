@@ -57,12 +57,12 @@ public class Setting extends AppCompatActivity {
                 if(mEdit1.length() != 0){
                     for(int i = 0; i<emailAddresses.length; i++){
                         Log.i("EditText AS ARRAY ", emailAddresses[i]);
-                        AddData(emailAddresses[i]);
+                        addImportantEmail(emailAddresses[i]);
                         //AddData(mEditString.toString());
                     }
 
                 }
-                else{
+                else {
                     Toast.makeText(Setting.this, "You must put something in the text field!", Toast.LENGTH_LONG).show();
                 }
 
@@ -86,6 +86,9 @@ public class Setting extends AppCompatActivity {
                 String mEditString = Setting.this.mEdit2.getText().toString();
                 // Log.v("EditText", mEdit.getText().toString());
                 urgentKeywords = mEditString.split(" ");
+
+
+
                 // Start NewActivity.class
                 Intent myIntent = new Intent(Setting.this, AddUrgentKeyWord.class);
                 myIntent.putExtra("myUrgentWord", urgentKeywords);
@@ -105,6 +108,9 @@ public class Setting extends AppCompatActivity {
 
                 // Log.v("EditText", mEdit.getText().toString());
                 favoriteKeywords = mEditString.split(" ");
+
+
+
                 // Start NewActivity.class
                 Intent myIntent = new Intent(Setting.this, AddFavoriteKeyWord.class);
                 myIntent.putExtra("myFavoriteWord", favoriteKeywords);
@@ -115,13 +121,12 @@ public class Setting extends AppCompatActivity {
 
     }
 
+    public void addImportantEmail(String emailAddress) {
 
-    public void AddData(String newEntry) {
+        Log.v("Adding to Database ",  emailAddress);
+        boolean insertData = myDB.addImportantEmailData(emailAddress);
 
-        Log.v("Adding to Database ",  newEntry);
-        boolean insertData = myDB.addData(newEntry);
-
-        Log.v("thisShould return ",  newEntry);
+        Log.v("thisShould return ",  emailAddress);
 
         if(insertData==true){
             Toast.makeText(this, "Data Successfully Inserted!", Toast.LENGTH_LONG).show();
@@ -129,6 +134,33 @@ public class Setting extends AppCompatActivity {
             Toast.makeText(this, "Something went wrong :(.", Toast.LENGTH_LONG).show();
         }
     }
+
+    public void addUrgentKeyword(String keyword) {
+        Log.v("Adding to Database ",  keyword);
+        boolean insertData = myDB.addUrgentKeywordData(keyword);
+
+        Log.v("thisShould return ",  keyword);
+
+        if(insertData==true){
+            Toast.makeText(this, "Data Successfully Inserted!", Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this, "Something went wrong :(.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public void addFavoriteKeyword(String keyword) {
+        Log.v("Adding to Database ",  keyword);
+        boolean insertData = myDB.addImportantEmailData(keyword);
+
+        Log.v("thisShould return ",  keyword);
+
+        if(insertData==true){
+            Toast.makeText(this, "Data Successfully Inserted!", Toast.LENGTH_LONG).show();
+        }else{
+            Toast.makeText(this, "Something went wrong :(.", Toast.LENGTH_LONG).show();
+        }
+    }
+
     public void logout(){
 
 //        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

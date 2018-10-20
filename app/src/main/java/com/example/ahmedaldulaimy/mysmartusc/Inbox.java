@@ -16,18 +16,55 @@ public class Inbox extends AppCompatActivity {
     public Setting settings;
     public Email[] listOfFavorites;
 
-    public void removeEmail(){};
-    public void goToSettings(){};
-    public void sortEmails(){};
-    public void fetchEmails(){};
-    public void notifyUser(){};
+    public void removeEmail(){
+    };
 
-    public void validateFavorite(){};
-    public void validateUrgent(){};
+    public void goToSettings(){
+    };
 
-    public boolean filterFavorite(){ return true; };
-    public boolean filterUrgent(){ return true; };
-    public boolean filterSender(){ return true; };
+    // Sort emails by date from most recent to oldest.
+    public void sortEmails(){
+    };
+
+    public void fetchEmails(){
+
+    };
+
+    public void notifyUser(){
+    };
+
+    // Highlight emails with favorites as green.
+    public void validateFavorite(){
+
+        // Go through list of emails and find if they are favorites
+        for(int i = 0; i < emailList.length; i++) {
+            for(int j = 0; j < listOfFavorites.length; j++) {
+                if(emailList[i].equals(listOfFavorites[j])) {
+                    System.out.println(listOfFavorites[j] + " ");
+                }
+            }
+        }
+    };
+
+    // Highlight emails with urgent as red.
+    public void validateUrgent(){
+
+    };
+
+    // Filter emails based on only those marked as favorites (display only favorites).
+    public boolean filterFavorite(){
+        return true;
+    };
+
+    // Filter emails based on only those marked as urgent (display only urgents).
+    public boolean filterUrgent(){
+        return true;
+    };
+
+    // Filter emails based on only those sent by specified email addresses (display only specified email addresses).
+    public boolean filterSender(){
+        return true;
+    };
 
     FloatingActionButton faButton;
 
@@ -37,7 +74,7 @@ public class Inbox extends AppCompatActivity {
         setContentView(R.layout.activity_inbox);
 
 
-        // add a onclick Lisitenner to the + sign icon
+        // add a onclick Listener to the + sign icon
         faButton = (FloatingActionButton)findViewById(R.id.plus_sign_icon);
 
         faButton.setOnClickListener(new View.OnClickListener() {
@@ -62,4 +99,16 @@ public class Inbox extends AppCompatActivity {
         listOfEmails.setAdapter(adapter);
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setContentView(R.layout.activity_inbox);
+
+
+
+        // validateFavorite();
+    }
+
+
 }
