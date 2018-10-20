@@ -31,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " ITEM1 TEXT)";
         String createUrgentKeywordsTable = "CREATE TABLE " + URGENT_KEYWORDS_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 " ITEM1 TEXT)";
-        String createFavoriteKeywordsTable = "CREATE TABLE " + URGENT_KEYWORDS_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        String createFavoriteKeywordsTable = "CREATE TABLE " + FAVORITE_KEYWORDS_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 " ITEM1 TEXT)";
 
         db.execSQL(createImportantEmailsTable);
