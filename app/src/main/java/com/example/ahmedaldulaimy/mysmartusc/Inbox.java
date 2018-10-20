@@ -100,15 +100,15 @@ public class Inbox extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        setContentView(R.layout.activity_inbox);
-
-
-
-        // validateFavorite();
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        setContentView(R.layout.activity_inbox);
+//
+//
+//
+//        // validateFavorite();
+//    }
 
 
 }
