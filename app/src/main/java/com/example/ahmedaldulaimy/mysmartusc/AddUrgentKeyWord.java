@@ -44,30 +44,28 @@ public class AddUrgentKeyWord extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.listOfUrgentKeywords);
 //        listView.setAdapter(adapter);
 
-        //populate an ArrayList<String> from the database and then view it
+        myDB = new DatabaseHelper(this);
         ArrayList<String> theList = new ArrayList<>();
+        //theList.add("NULL");
         Cursor data = myDB.getUrgentKeywords();
-        MyCustomAdapter adapter = new MyCustomAdapter();
-        System.out.println("this got called 11111111111111111");
+
+        //MyCustomAdapter adapter = new MyCustomAdapter();
+
+        //if database is empty
         if(data.getCount() == 0){
             Toast.makeText(this, "There are no contents in this list!",Toast.LENGTH_LONG).show();
         }else{
+            //this extract data from the database and adds it to the list to display
             while(data.moveToNext()){
+
                 theList.add(data.getString(1));
-                //ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.list_item, theList);
 
-                adapter.SetList(theList);
-                adapter.SetContext(this);
-                String removedItem = adapter.GetRemovedItem();
-                //if(removedItem != ""){
-//                System.out.println("deleting data ");
-//                myDB.removeData(removedItem);
-
-                listView.setAdapter(adapter);
             }
-
-
         }
+
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,
+                R.layout.list_item, theList);
+        listView.setAdapter(adapter);
     }
 
 }

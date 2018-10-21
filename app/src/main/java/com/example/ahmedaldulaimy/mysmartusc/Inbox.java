@@ -1,5 +1,6 @@
 package com.example.ahmedaldulaimy.mysmartusc;
 
+import android.database.Cursor;
 import android.support.design.widget.FloatingActionButton;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,13 +9,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 public class Inbox extends AppCompatActivity {
 
-    public Email[] emailList;
-    public Setting settings;
-    public Email[] listOfFavorites;
+    DatabaseHelper myDB;
+    ArrayList<String> emailList = new ArrayList<>();
+    ArrayList<String> urgentWordList = new ArrayList<>();
+    ArrayList<String> favoriteWordList = new ArrayList<>();
 
     public void removeEmail(){
     };
@@ -37,10 +42,10 @@ public class Inbox extends AppCompatActivity {
     public void validateFavorite(){
 
         // Go through list of emails and find if they are favorites
-        for(int i = 0; i < emailList.length; i++) {
-            for(int j = 0; j < listOfFavorites.length; j++) {
-                if(emailList[i].equals(listOfFavorites[j])) {
-                    System.out.println(listOfFavorites[j] + " ");
+        for(int i = 0; i < emailList.size(); i++) {
+            for(int j = 0; j < favoriteWordList.size(); j++) {
+                if(emailList.get(i).equals(favoriteWordList.get(j))) {
+                    System.out.println(favoriteWordList.get(j) + " ");
                 }
             }
         }
@@ -73,6 +78,9 @@ public class Inbox extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbox);
 
+         FetchEmailsFromDB();
+        FetchFavoriteKeyWordsFromDB();
+        FetchUrgentKeyWordsFromDB();
 
         // add a onclick Listener to the + sign icon
         faButton = (FloatingActionButton)findViewById(R.id.plus_sign_icon);
@@ -110,5 +118,72 @@ public class Inbox extends AppCompatActivity {
 //        // validateFavorite();
 //    }
 
+
+    public void FetchEmailsFromDB(){
+        myDB = new DatabaseHelper(this);
+        Cursor data = myDB.getImportantEmails();
+        //if database is empty
+        if(data.getCount() == 0){
+            Toast.makeText(this, "There are no contents in this list!",Toast.LENGTH_LONG).show();
+        }else{
+            //this extract data from the database and adds it to the list to display
+            while(data.moveToNext()){
+
+                emailList.add(data.getString(1));
+
+            }
+        }
+
+        //check if succesfully got all the eamil adressess from DB
+        for(int i= 0; i<emailList.size(); i++){
+            Log.v("Emails from DB ",  emailList.get(i));
+        }
+
+    }
+
+    public void FetchFavoriteKeyWordsFromDB(){
+        myDB = new DatabaseHelper(this);
+        Cursor data = myDB.getFavoriteKeywords();
+        //if database is empty
+        if(data.getCount() == 0){
+            Toast.makeText(this, "There are no contents in this list!",Toast.LENGTH_LONG).show();
+        }else{
+            //this extract data from the database and adds it to the list to display
+            while(data.moveToNext()){
+
+                favoriteWordList.add(data.getString(1));
+
+            }
+        }
+
+        //check if succesfully got all the eamil adressess from DB
+        for(int i= 0; i<favoriteWordList.size(); i++){
+            Log.v("fav words from DB ",  favoriteWordList.get(i));
+        }
+
+    }
+
+    public void FetchUrgentKeyWordsFromDB(){
+
+        myDB = new DatabaseHelper(this);
+        Cursor data = myDB.getUrgentKeywords();
+        //if database is empty
+        if(data.getCount() == 0){
+            Toast.makeText(this, "There are no contents in this list!",Toast.LENGTH_LONG).show();
+        }else{
+            //this extract data from the database and adds it to the list to display
+            while(data.moveToNext()){
+
+                urgentWordList.add(data.getString(1));
+
+            }
+        }
+
+        //check if succesfully got all the eamil adressess from DB
+        for(int i= 0; i<urgentWordList.size(); i++){
+            Log.v("Urgent words from DB ",  urgentWordList.get(i));
+        }
+
+    }
 
 }

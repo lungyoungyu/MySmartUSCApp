@@ -45,6 +45,8 @@ public class Setting extends AppCompatActivity {
 
         // add an onclick Listener to the + sign icon
         email_button = (Button) findViewById(R.id.email_button);
+        urgent_keyWord_button = (Button) findViewById(R.id.urgent_word_button);
+        fav_keyWord_button = (Button) findViewById(R.id.favorite_word_button);
         myDB = new DatabaseHelper(this);
         email_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +78,7 @@ public class Setting extends AppCompatActivity {
             }
         });
 
-        urgent_keyWord_button = (Button) findViewById(R.id.urgent_word_button);
+
 
         urgent_keyWord_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,19 +86,30 @@ public class Setting extends AppCompatActivity {
 
                 mEdit2 = (EditText)findViewById(R.id.urgent_word);
                 String mEditString = Setting.this.mEdit2.getText().toString();
-                // Log.v("EditText", mEdit.getText().toString());
+                Log.v("EditText22/Urgent", mEdit2.getText().toString());
                 urgentKeywords = mEditString.split(" ");
 
+                if(mEdit2.length() != 0){
+                    for(int i = 0; i<urgentKeywords.length; i++){
+
+                        addUrgentKeyword(urgentKeywords[i]);
+                        //AddData(mEditString.toString());
+                    }
+
+                }
+                else {
+                    Toast.makeText(Setting.this, "You must put something in the text field!", Toast.LENGTH_LONG).show();
+                }
 
 
                 // Start NewActivity.class
                 Intent myIntent = new Intent(Setting.this, AddUrgentKeyWord.class);
-                myIntent.putExtra("myUrgentWord", urgentKeywords);
+                //myIntent.putExtra("myUrgentWord", urgentKeywords);
                 startActivity(myIntent);
             }
         });
 
-        fav_keyWord_button = (Button) findViewById(R.id.favorite_word_button);
+
 
         fav_keyWord_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,14 +119,26 @@ public class Setting extends AppCompatActivity {
 
                 String mEditString = Setting.this.mEdit3.getText().toString();
 
-                // Log.v("EditText", mEdit.getText().toString());
+                Log.v("EditText33/favorite", mEdit3.getText().toString());
                 favoriteKeywords = mEditString.split(" ");
 
+
+                if(mEdit3.length() != 0){
+                    for(int i = 0; i<favoriteKeywords.length; i++){
+
+                        addFavoriteKeyword(favoriteKeywords[i]);
+                        //AddData(mEditString.toString());
+                    }
+
+                }
+                else {
+                    Toast.makeText(Setting.this, "You must put something in the text field!", Toast.LENGTH_LONG).show();
+                }
 
 
                 // Start NewActivity.class
                 Intent myIntent = new Intent(Setting.this, AddFavoriteKeyWord.class);
-                myIntent.putExtra("myFavoriteWord", favoriteKeywords);
+                //myIntent.putExtra("myFavoriteWord", favoriteKeywords);
                 startActivity(myIntent);
             }
         });
@@ -150,7 +175,7 @@ public class Setting extends AppCompatActivity {
 
     public void addFavoriteKeyword(String keyword) {
         Log.v("Adding to Database ",  keyword);
-        boolean insertData = myDB.addImportantEmailData(keyword);
+        boolean insertData = myDB.addFavoriteKeywordData(keyword);
 
         Log.v("thisShould return ",  keyword);
 

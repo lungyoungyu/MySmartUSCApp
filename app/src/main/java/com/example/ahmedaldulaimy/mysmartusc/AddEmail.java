@@ -12,7 +12,6 @@ import android.widget.ListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-
 public class AddEmail extends AppCompatActivity {
 
     public String[] favoriteKeywords;
@@ -39,28 +38,13 @@ public class AddEmail extends AppCompatActivity {
     public void removeKeyword() {
     };
 
-    // Array of strings...
-    String[] listEmailAddress = {"11","22","33", "kababjya@usc.edu", "Test@usc.edu", "hello"};
-    //String[] listEmailAddress;
 
     DatabaseHelper myDB;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_email);
-
-//        mEdit = (EditText)findViewById(R.id.email_address);
-//        String mEditString = AddEmail.this.mEdit.getText().toString();
-//        Log.v("EditText", mEdit.getText().toString());
-       // listEmailAddress = mEditString.split(" ");
-
-//        Bundle extras = getIntent().getExtras();
-//        listEmailAddress = extras.getStringArray("myEmail");
-//
-//        ArrayAdapter adapter = new ArrayAdapter<String>(this,
-//                R.layout.list_item, listEmailAddress);
 
         ListView listView = (ListView)findViewById(R.id.listOfEmailAddresses);
 
@@ -70,32 +54,23 @@ public class AddEmail extends AppCompatActivity {
         //populate an ArrayList<String> from the database and then view it
         ArrayList<String> theList = new ArrayList<>();
         Cursor data = myDB.getImportantEmails();
-        MyCustomAdapter adapter = new MyCustomAdapter();
+        //MyCustomAdapter adapter = new MyCustomAdapter();
         System.out.println("this got called 11111111111111111");
+        //if database is empty
         if(data.getCount() == 0){
             Toast.makeText(this, "There are no contents in this list!",Toast.LENGTH_LONG).show();
         }else{
+            //this extract data from the database and adds it to the list to display
             while(data.moveToNext()){
+
                 theList.add(data.getString(1));
-                //ListAdapter listAdapter = new ArrayAdapter<>(this, R.layout.list_item, theList);
 
-                adapter.SetList(theList);
-                adapter.SetContext(this);
-                String removedItem = adapter.GetRemovedItem();
-                //if(removedItem != ""){
-//                System.out.println("deleting data ");
-//                myDB.removeData(removedItem);
-
-                listView.setAdapter(adapter);
             }
-
-
         }
 
-        //listView.setAdapter(adapter);
-
-
-
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,
+                R.layout.list_item, theList);
+        listView.setAdapter(adapter);
     }
 
 }
