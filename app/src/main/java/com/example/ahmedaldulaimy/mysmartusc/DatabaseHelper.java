@@ -126,17 +126,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     // CURRENTLY NOT WORKING
-    public boolean removeData(String item1){
+    public boolean removeEmailData(String item1){
         SQLiteDatabase db = this.getWritableDatabase();
-        long result =  db.delete(IMPORTANT_EMAILS_TABLE, COL1 + "=?", new String[]{item1} );
-        if(result > 0){
-            System.out.println("Succesfully deleted data ");
-            return true;
-        }
-        else {
-            System.out.println("ERROR deleted data ");
-            return false;
-        }
+        db.execSQL("DELETE FROM " + IMPORTANT_EMAILS_TABLE + " WHERE " +COL2 +"='"+item1+"'");
+       // int result = db.delete(IMPORTANT_EMAILS_TABLE,  "ID=?" + " and ITEM1= " + new String[]{item1});
+       // long result =  db.delete(IMPORTANT_EMAILS_TABLE, " ID= and ITEM1= ", new String[]{pos, item1} );
+        return true;
+
+
+    }
+
+    public boolean removeFavoriteKeyWordData(String item1){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + FAVORITE_KEYWORDS_TABLE + " WHERE " +COL2 +"='"+item1+"'");
+        // int result = db.delete(IMPORTANT_EMAILS_TABLE,  "ID=?" + " and ITEM1= " + new String[]{item1});
+        // long result =  db.delete(IMPORTANT_EMAILS_TABLE, " ID= and ITEM1= ", new String[]{pos, item1} );
+        return true;
+
+
+    }
+    public boolean removeUrgentKeyWordData(String item1){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + URGENT_KEYWORDS_TABLE + " WHERE " +COL2 +"='"+item1+"'");
+        // int result = db.delete(IMPORTANT_EMAILS_TABLE,  "ID=?" + " and ITEM1= " + new String[]{item1});
+        // long result =  db.delete(IMPORTANT_EMAILS_TABLE, " ID= and ITEM1= ", new String[]{pos, item1} );
+        return true;
+
 
     }
 }

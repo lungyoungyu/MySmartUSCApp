@@ -65,7 +65,7 @@ public class Setting extends AppCompatActivity {
 
                 }
                 else {
-                    Toast.makeText(Setting.this, "You must put something in the text field!", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(Setting.this, "You must put something in the text field!", Toast.LENGTH_LONG).show();
                 }
 
 
@@ -98,7 +98,7 @@ public class Setting extends AppCompatActivity {
 
                 }
                 else {
-                    Toast.makeText(Setting.this, "You must put something in the text field!", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(Setting.this, "You must put something in the text field!", Toast.LENGTH_LONG).show();
                 }
 
 
@@ -132,7 +132,7 @@ public class Setting extends AppCompatActivity {
 
                 }
                 else {
-                    Toast.makeText(Setting.this, "You must put something in the text field!", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(Setting.this, "You must put something in the text field!", Toast.LENGTH_LONG).show();
                 }
 
 
@@ -154,9 +154,9 @@ public class Setting extends AppCompatActivity {
         Log.v("thisShould return ",  emailAddress);
 
         if(insertData==true){
-            Toast.makeText(this, "Data Successfully Inserted!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Data Successfully Inserted!", Toast.LENGTH_LONG).show();
         }else{
-            Toast.makeText(this, "Something went wrong :(.", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Something went wrong :(.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -167,9 +167,9 @@ public class Setting extends AppCompatActivity {
         Log.v("thisShould return ",  keyword);
 
         if(insertData==true){
-            Toast.makeText(this, "Data Successfully Inserted!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Data Successfully Inserted!", Toast.LENGTH_LONG).show();
         }else{
-            Toast.makeText(this, "Something went wrong :(.", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Something went wrong :(.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -180,9 +180,9 @@ public class Setting extends AppCompatActivity {
         Log.v("thisShould return ",  keyword);
 
         if(insertData==true){
-            Toast.makeText(this, "Data Successfully Inserted!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Data Successfully Inserted!", Toast.LENGTH_LONG).show();
         }else{
-            Toast.makeText(this, "Something went wrong :(.", Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, "Something went wrong :(.", Toast.LENGTH_LONG).show();
         }
     }
 
