@@ -9,9 +9,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 
 public class Inbox extends AppCompatActivity {
@@ -20,32 +23,56 @@ public class Inbox extends AppCompatActivity {
     ArrayList<String> emailList = new ArrayList<>();
     ArrayList<String> urgentWordList = new ArrayList<>();
     ArrayList<String> favoriteWordList = new ArrayList<>();
+    ArrayList<Email> allEmails = new ArrayList<>();
+    HashMap<Integer, Boolean> favoriteMap = new HashMap<>(); // Map of email index to True/False if contains favorite keyword
+    HashMap<Integer, Boolean> urgentMap = new HashMap<>(); // Map of email index to True/False if contains urgent keyword
 
     public void removeEmail(){
-    };
-
-    public void goToSettings(){
     };
 
     // Sort emails by date from most recent to oldest.
     public void sortEmails(){
     };
 
-    public void fetchEmails(){
-
-    };
-
     public void notifyUser(){
     };
 
-    // Highlight emails with favorites as green.
+    // Check emails that are marked as favorite. (Marks them as true in favoriteMap)
     public void validateFavorite(){
+        for(int i = 0; i < allEmails.size(); i++) {
 
-        // Go through list of emails and find if they are favorites
-        for(int i = 0; i < emailList.size(); i++) {
-            for(int j = 0; j < favoriteWordList.size(); j++) {
-                if(emailList.get(i).equals(favoriteWordList.get(j))) {
-                    System.out.println(favoriteWordList.get(j) + " ");
+            // Email Subject Line
+            String subject = allEmails.get(i).getSubject();
+            String[] subjectWords = subject.split("\\s+");
+            // Take out punctuation
+            for (int j = 0; j < subjectWords.length; j++) {
+                subjectWords[j] = subjectWords[j].replaceAll("[^\\w]", "");
+            }
+
+
+            for (int k = 0; k < subjectWords.length; k++) {
+                for (int l = 0; l < favoriteWordList.size(); l++) {
+                    if (subjectWords[k].equals(favoriteWordList.get(l))) {
+                        favoriteMap.put(i, true);
+                        break;
+                    }
+                }
+            }
+
+            // Email Contents
+            String content = allEmails.get(i).getContent();
+            String[] contentWords = content.split("\\s+");
+            // Take out punctuation
+            for (int j = 0; j < contentWords.length; j++) {
+                contentWords[j] = contentWords[j].replaceAll("[^\\w]", "");
+            }
+
+            for (int k = 0; k < contentWords.length; k++) {
+                for (int l = 0; l < favoriteWordList.size(); l++) {
+                    if (contentWords[k].equals(favoriteWordList.get(l))) {
+                        favoriteMap.put(i, true);
+                        break;
+                    }
                 }
             }
         }
@@ -53,7 +80,43 @@ public class Inbox extends AppCompatActivity {
 
     // Highlight emails with urgent as red.
     public void validateUrgent(){
+        for(int i = 0; i < allEmails.size(); i++) {
 
+            // Email Subject Line
+            String subject = allEmails.get(i).getSubject();
+            String[] subjectWords = subject.split("\\s+");
+            // Take out punctuation
+            for (int j = 0; j < subjectWords.length; j++) {
+                subjectWords[j] = subjectWords[j].replaceAll("[^\\w]", "");
+            }
+
+
+            for (int k = 0; k < subjectWords.length; k++) {
+                for (int l = 0; l < urgentWordList.size(); l++) {
+                    if (subjectWords[k].equals(urgentWordList.get(l))) {
+                        urgentMap.put(i, true);
+                        break;
+                    }
+                }
+            }
+
+            // Email Contents
+            String content = allEmails.get(i).getContent();
+            String[] contentWords = content.split("\\s+");
+            // Take out punctuation
+            for (int j = 0; j < contentWords.length; j++) {
+                contentWords[j] = contentWords[j].replaceAll("[^\\w]", "");
+            }
+
+            for (int k = 0; k < contentWords.length; k++) {
+                for (int l = 0; l < urgentWordList.size(); l++) {
+                    if (contentWords[k].equals(urgentWordList.get(l))) {
+                        urgentMap.put(i, true);
+                        break;
+                    }
+                }
+            }
+        }
     };
 
     // Filter emails based on only those marked as favorites (display only favorites).
@@ -73,12 +136,8 @@ public class Inbox extends AppCompatActivity {
 
     FloatingActionButton faButton;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inbox);
-
-         FetchEmailsFromDB();
+    public void populateInboxView() {
+        FetchEmailsFromDB();
         FetchFavoriteKeyWordsFromDB();
         FetchUrgentKeyWordsFromDB();
 
@@ -105,19 +164,59 @@ public class Inbox extends AppCompatActivity {
         // Capture the layout's TextView and set the string as its text
         ListView listOfEmails = (ListView) findViewById(R.id.listOfEmails);
         listOfEmails.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_inbox);
+
+        populateInboxView();
 
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        setContentView(R.layout.activity_inbox);
-//
-//
-//
-//        // validateFavorite();
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        setContentView(R.layout.activity_inbox);
 
+        FetchEmailsFromDB();
+        FetchFavoriteKeyWordsFromDB();
+        FetchUrgentKeyWordsFromDB();
+
+        // add a onclick Listener to the + sign icon
+        faButton = (FloatingActionButton)findViewById(R.id.plus_sign_icon);
+
+        faButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Start NewActivity.class
+                Intent myIntent = new Intent(Inbox.this,
+                        Setting.class);
+                startActivity(myIntent);
+            }
+        });
+
+        // Get the Intent that started this activity and extract the string
+        Intent intent = getIntent();
+
+        Email[] emails = (Email[]) intent.getSerializableExtra("emails");
+
+        ArrayAdapter adapter = new ArrayAdapter<Email>(this, R.layout.list_item, emails);
+
+        // Capture the layout's TextView and set the string as its text
+        ListView listOfEmails = (ListView) findViewById(R.id.listOfEmails);
+
+        listOfEmails.setAdapter(adapter);
+
+        List<Email> allEmails = new ArrayList<Email>();
+
+        for(int i = 0; i < adapter.getCount(); i++) {
+            allEmails.add((Email)adapter.getItem(i));
+        }
+
+
+    }
 
     public void FetchEmailsFromDB(){
         myDB = new DatabaseHelper(this);
