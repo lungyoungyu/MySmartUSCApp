@@ -218,6 +218,53 @@ public class Inbox extends AppCompatActivity {
 
     }
 
+//    public class ListAdapter extends ArrayAdapter<Email> {
+//
+//        private int resourceLayout;
+//        private Context mContext;
+//
+//        public ListAdapter(Context context, int resource, List<Email> items) {
+//            super(context, resource, items);
+//            this.resourceLayout = resource;
+//            this.mContext = context;
+//        }
+//
+//        @Override
+//        public View getView(int position, View convertView, ViewGroup parent) {
+//
+//            View v = convertView;
+//
+//            if (v == null) {
+//                LayoutInflater vi;
+//                vi = LayoutInflater.from(mContext);
+//                v = vi.inflate(resourceLayout, null);
+//            }
+//
+//            Email p = getItem(position);
+//
+//            if (p != null) {
+//                TextView tt1 = (TextView) v.findViewById(R.id.id);
+//                TextView tt2 = (TextView) v.findViewById(R.id.categoryId);
+//                TextView tt3 = (TextView) v.findViewById(R.id.description);
+//
+//                if (tt1 != null) {
+//                    tt1.setText(p.getId());
+//                }
+//
+//                if (tt2 != null) {
+//                    tt2.setText(p.getCategory().getId());
+//                }
+//
+//                if (tt3 != null) {
+//                    tt3.setText(p.getDescription());
+//                }
+//            }
+//
+//            return v;
+//        }
+//
+//    }
+
     public void FetchEmailsFromDB(){
         myDB = new DatabaseHelper(this);
         Cursor data = myDB.getImportantEmails();
