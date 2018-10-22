@@ -1,20 +1,22 @@
 package com.example.ahmedaldulaimy.mysmartusc;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.database.Cursor;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.content.Intent;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 
 public class Inbox extends AppCompatActivity {
@@ -23,56 +25,34 @@ public class Inbox extends AppCompatActivity {
     ArrayList<String> emailList = new ArrayList<>();
     ArrayList<String> urgentWordList = new ArrayList<>();
     ArrayList<String> favoriteWordList = new ArrayList<>();
-    ArrayList<Email> allEmails = new ArrayList<>();
-    HashMap<Integer, Boolean> favoriteMap = new HashMap<>(); // Map of email index to True/False if contains favorite keyword
-    HashMap<Integer, Boolean> urgentMap = new HashMap<>(); // Map of email index to True/False if contains urgent keyword
+
+    String CHANNEL_ID = "123213ref";
 
     public void removeEmail(){
+    };
+
+    public void goToSettings(){
     };
 
     // Sort emails by date from most recent to oldest.
     public void sortEmails(){
     };
 
+    public void fetchEmails(){
+
+    };
+
     public void notifyUser(){
     };
 
-    // Check emails that are marked as favorite. (Marks them as true in favoriteMap)
+    // Highlight emails with favorites as green.
     public void validateFavorite(){
-        for(int i = 0; i < allEmails.size(); i++) {
 
-            // Email Subject Line
-            String subject = allEmails.get(i).getSubject();
-            String[] subjectWords = subject.split("\\s+");
-            // Take out punctuation
-            for (int j = 0; j < subjectWords.length; j++) {
-                subjectWords[j] = subjectWords[j].replaceAll("[^\\w]", "");
-            }
-
-
-            for (int k = 0; k < subjectWords.length; k++) {
-                for (int l = 0; l < favoriteWordList.size(); l++) {
-                    if (subjectWords[k].equals(favoriteWordList.get(l))) {
-                        favoriteMap.put(i, true);
-                        break;
-                    }
-                }
-            }
-
-            // Email Contents
-            String content = allEmails.get(i).getContent();
-            String[] contentWords = content.split("\\s+");
-            // Take out punctuation
-            for (int j = 0; j < contentWords.length; j++) {
-                contentWords[j] = contentWords[j].replaceAll("[^\\w]", "");
-            }
-
-            for (int k = 0; k < contentWords.length; k++) {
-                for (int l = 0; l < favoriteWordList.size(); l++) {
-                    if (contentWords[k].equals(favoriteWordList.get(l))) {
-                        favoriteMap.put(i, true);
-                        break;
-                    }
+        // Go through list of emails and find if they are favorites
+        for(int i = 0; i < emailList.size(); i++) {
+            for(int j = 0; j < favoriteWordList.size(); j++) {
+                if(emailList.get(i).equals(favoriteWordList.get(j))) {
+                    System.out.println(favoriteWordList.get(j) + " ");
                 }
             }
         }
@@ -80,43 +60,7 @@ public class Inbox extends AppCompatActivity {
 
     // Highlight emails with urgent as red.
     public void validateUrgent(){
-        for(int i = 0; i < allEmails.size(); i++) {
 
-            // Email Subject Line
-            String subject = allEmails.get(i).getSubject();
-            String[] subjectWords = subject.split("\\s+");
-            // Take out punctuation
-            for (int j = 0; j < subjectWords.length; j++) {
-                subjectWords[j] = subjectWords[j].replaceAll("[^\\w]", "");
-            }
-
-
-            for (int k = 0; k < subjectWords.length; k++) {
-                for (int l = 0; l < urgentWordList.size(); l++) {
-                    if (subjectWords[k].equals(urgentWordList.get(l))) {
-                        urgentMap.put(i, true);
-                        break;
-                    }
-                }
-            }
-
-            // Email Contents
-            String content = allEmails.get(i).getContent();
-            String[] contentWords = content.split("\\s+");
-            // Take out punctuation
-            for (int j = 0; j < contentWords.length; j++) {
-                contentWords[j] = contentWords[j].replaceAll("[^\\w]", "");
-            }
-
-            for (int k = 0; k < contentWords.length; k++) {
-                for (int l = 0; l < urgentWordList.size(); l++) {
-                    if (contentWords[k].equals(urgentWordList.get(l))) {
-                        urgentMap.put(i, true);
-                        break;
-                    }
-                }
-            }
-        }
     };
 
     // Filter emails based on only those marked as favorites (display only favorites).
@@ -136,42 +80,12 @@ public class Inbox extends AppCompatActivity {
 
     FloatingActionButton faButton;
 
-    public void populateInboxView() {
-        FetchEmailsFromDB();
-        FetchFavoriteKeyWordsFromDB();
-        FetchUrgentKeyWordsFromDB();
-
-        // add a onclick Listener to the + sign icon
-        faButton = (FloatingActionButton)findViewById(R.id.plus_sign_icon);
-
-        faButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Start NewActivity.class
-                Intent myIntent = new Intent(Inbox.this,
-                        Setting.class);
-                startActivity(myIntent);
-            }
-        });
-
-        // Get the Intent that started this activity and extract the string
-        Intent intent = getIntent();
-
-        Email[] emails = (Email[]) intent.getSerializableExtra("emails");
-
-        ArrayAdapter adapter = new ArrayAdapter<Email>(this, R.layout.list_item, emails);
-
-        // Capture the layout's TextView and set the string as its text
-        ListView listOfEmails = (ListView) findViewById(R.id.listOfEmails);
-        listOfEmails.setAdapter(adapter);
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inbox);
 
-        populateInboxView();
+
 
     }
 
@@ -180,6 +94,10 @@ public class Inbox extends AppCompatActivity {
         super.onResume();
         setContentView(R.layout.activity_inbox);
 
+
+        displayNotification();
+
+
         FetchEmailsFromDB();
         FetchFavoriteKeyWordsFromDB();
         FetchUrgentKeyWordsFromDB();
@@ -206,64 +124,47 @@ public class Inbox extends AppCompatActivity {
 
         // Capture the layout's TextView and set the string as its text
         ListView listOfEmails = (ListView) findViewById(R.id.listOfEmails);
-
         listOfEmails.setAdapter(adapter);
 
-        List<Email> allEmails = new ArrayList<Email>();
+        // validateFavorite();
+    }
 
-        for(int i = 0; i < adapter.getCount(); i++) {
-            allEmails.add((Email)adapter.getItem(i));
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+            CharSequence name = "cha1";
+            String description = "messages";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+
         }
+    }
 
+    public void displayNotification(){
+
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
+                .setContentTitle("NEW URGENT EMAIL")
+                .setContentText("You have a new urgent email...")
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText("You have a new urgent email..."))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(2, mBuilder.build());
 
     }
 
-//    public class ListAdapter extends ArrayAdapter<Email> {
-//
-//        private int resourceLayout;
-//        private Context mContext;
-//
-//        public ListAdapter(Context context, int resource, List<Email> items) {
-//            super(context, resource, items);
-//            this.resourceLayout = resource;
-//            this.mContext = context;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, ViewGroup parent) {
-//
-//            View v = convertView;
-//
-//            if (v == null) {
-//                LayoutInflater vi;
-//                vi = LayoutInflater.from(mContext);
-//                v = vi.inflate(resourceLayout, null);
-//            }
-//
-//            Email p = getItem(position);
-//
-//            if (p != null) {
-//                TextView tt1 = (TextView) v.findViewById(R.id.id);
-//                TextView tt2 = (TextView) v.findViewById(R.id.categoryId);
-//                TextView tt3 = (TextView) v.findViewById(R.id.description);
-//
-//                if (tt1 != null) {
-//                    tt1.setText(p.getId());
-//                }
-//
-//                if (tt2 != null) {
-//                    tt2.setText(p.getCategory().getId());
-//                }
-//
-//                if (tt3 != null) {
-//                    tt3.setText(p.getDescription());
-//                }
-//            }
-//
-//            return v;
-//        }
-//
-//    }
+
 
     public void FetchEmailsFromDB(){
         myDB = new DatabaseHelper(this);
