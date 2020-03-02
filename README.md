@@ -1,5 +1,11 @@
 # MySmartUSC
 
+Android mobile app for organizing your college emails to create the most personalized experience.
+
+View and filter emails based on whether they contain user-input email addresses and keywords. Modify which emails create push notifications, are highlighted, or marked in red.
+
+-----------------------
+
 Google requires all *developers* to have a special client ID. 
 Please provide us with your andriod studio SHA-1 code in order for us to issue you a credentials file. 
 
